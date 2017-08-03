@@ -15,6 +15,6 @@ class ActivitySearch:
 class ActivityPersistor:
 
     @classmethod
-    def persist_new_activity(cls, activity: Activity) -> None:
+    def add_new_activity_to_db(cls, activity: Activity) -> None:
         user_activities= db['activities'].get(activity.user._id, [])
         user_activities.append(activity)
