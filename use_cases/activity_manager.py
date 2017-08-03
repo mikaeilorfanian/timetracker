@@ -9,27 +9,29 @@ class ActivityWithSameCategoryExistsError(Exception):
 class ActivityManager:
 
     @classmethod
-    def start_new_activity(cls, category):
-        if cls.any_activity_already_started():
+    def start_new_activity(cls, user, category):
+        if cls.any_activity_already_started(user):
             raise ActivityWithSameCategoryExistsError
-        elif cls.activity_with_same_category_already_started(category):
+        elif cls.activity_with_same_category_already_started(user, category):
             raise ActivityWithSameCategoryExistsError
         else:
-            a = Activity(category)
+            a = Activity(user, category)
             a.start()
             return a
 
     @classmethod
-    def activity_with_same_category_already_started(cls, category):
-        in_progress_activities = ActivitySearch.in_progress_activities()
+    def activity_with_same_category_already_started(cls, user, category):
+        in_progress_activities = ActivitySearch.\
+            in_progress_activities_for_user(user)
         for activity in in_progress_activities:
             if activity.category == category and activity.started:
                 return True
         return False
 
     @classmethod
-    def any_activity_already_started(cls):
-        in_progress_activities = ActivitySearch.in_progress_activities()
+    def any_activity_already_started(cls, user):
+        in_progress_activities = ActivitySearch.\
+            in_progress_activities_for_user(user)
         for activity in in_progress_activities:
             if activity.started:
                 return True

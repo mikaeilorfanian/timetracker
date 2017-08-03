@@ -7,19 +7,46 @@ from ...entities.user import UserEntity
 from ...gateway import db
 
 
-def test_cant_start_more_than_one_activity_in_same_category_at_once():
+def test_user_cant_start_more_than_one_activity_in_same_category_at_once():
     user = UserEntity('mike', _id=1)
     a = Activity(user, 'working')
     a.start()
-    db['activities'] = [a]
+    db['activities'] = dict()
+    db['activities'][user._id] = [a]
+
     with pytest.raises(ActivityWithSameCategoryExistsError):
-        ActivityManager.start_new_activity('working')
+        ActivityManager.start_new_activity(user, 'working')
 
 
-def test_cant_engage_in_more_than_one_activity_at_once():
+def test_user_cant_engage_in_more_than_one_activity_at_once():
     user = UserEntity('mike', _id=1)
     a = Activity(user, 'working')
     a.start()
-    db['activities'] = [a]
+    db['activities'] = dict()
+    db['activities'][user._id] = [a]
+
     with pytest.raises(ActivityWithSameCategoryExistsError):
-        ActivityManager.start_new_activity('sleeping')
+        ActivityManager.start_new_activity(user, 'sleeping')
+
+
+def test_different_users_can_start_same_activity_in_same_category_at_once():
+    user1 = UserEntity('mike', _id=1)
+    a1 = Activity(user1, 'working')
+    a1.start()
+    db['activities'] = dict()
+    db['activities'][user1._id] = [a1]
+
+    user2 = UserEntity('Garry', _id=2)
+    a2 = ActivityManager.start_new_activity(user2, 'working')
+    db['activities'][user1._id].append(a2)
+
+def test_different_users_can_engage_in_different_activities_at_once():
+    user1 = UserEntity('mike', _id=1)
+    a1 = Activity(user1, 'working')
+    a1.start()
+    db['activities'] = dict()
+    db['activities'][user1._id] = [a1]
+
+    user2 = UserEntity('Garry', _id=2)
+    a2 = ActivityManager.start_new_activity(user2, 'sleeping')
+    db['activities'][user1._id].append(a2)
