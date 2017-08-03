@@ -21,18 +21,16 @@ class ActivityManager:
 
     @classmethod
     def activity_with_same_category_already_started(cls, user, category):
-        in_progress_activities = ActivitySearch.\
-            in_progress_activities_for_user(user)
-        for activity in in_progress_activities:
+        user_activities = ActivitySearch.user_activities(user)
+        for activity in user_activities:
             if activity.category == category and activity.started:
                 return True
         return False
 
     @classmethod
     def any_activity_already_started(cls, user):
-        in_progress_activities = ActivitySearch.\
-            in_progress_activities_for_user(user)
-        for activity in in_progress_activities:
+        user_activities = ActivitySearch.user_activities(user)
+        for activity in user_activities:
             if activity.started:
                 return True
         return False
