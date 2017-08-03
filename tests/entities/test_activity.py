@@ -14,6 +14,6 @@ def test_end_an_activity():
     assert a.ended is True
 
 
-def test_activity_has_type():
+def test_activity_has_category():
     a = Activity(category='working')
     assert a.category == 'working'
