@@ -1,6 +1,6 @@
 import pytest
 
-from ...app.activity_manager import ActivityManager, \
+from ...use_cases.activity_manager import ActivityManager, \
     ActivityWithSameCategoryExistsError
 from ...entities.activity import Activity
 from ...gateway import db
