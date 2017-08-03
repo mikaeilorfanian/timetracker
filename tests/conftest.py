@@ -25,3 +25,8 @@ def test_sleeping_activity(test_user):
 @pytest.fixture
 def test_working_activity(test_user):
     return ActivityManager.start_new_activity(test_user, 'working')
+
+
+@pytest.fixture
+def test_activity(test_user):
+    return ActivityManager.start_new_activity(test_user, 'test_activity')
