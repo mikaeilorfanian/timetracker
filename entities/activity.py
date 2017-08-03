@@ -4,9 +4,10 @@ class Activity:
     STARTED = 'started'
     ENDED = 'ended'
 
-    def __init__(self, category):
+    def __init__(self, user, category):
         self.status = None
         self.category = category
+        self.user = user
 
     def start(self):
         self.status = self.STARTED
