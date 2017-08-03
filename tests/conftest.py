@@ -1,3 +1,4 @@
+from collections import defaultdict
 import pytest
 
 from ..entities.user import UserEntity
@@ -8,7 +9,7 @@ from ..use_cases.activity_manager import ActivityManager
 @pytest.fixture(scope='function')
 def test_db():
     yield db
-    db['activities'] = dict()
+    db['activities'] = defaultdict(list)
 
 
 @pytest.fixture
