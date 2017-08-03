@@ -10,9 +10,9 @@ class ActivityManager:
 
     @classmethod
     def start_new_activity(cls, user, category):
-        if cls.any_activity_already_started(user):
+        if cls.user_already_started_an_activity(user):
             raise ActivityWithSameCategoryExistsError
-        elif cls.activity_with_same_category_already_started(user, category):
+        elif cls.user_already_started_activity_of_same_category(user, category):
             raise ActivityWithSameCategoryExistsError
         else:
             a = Activity(user, category)
@@ -20,7 +20,7 @@ class ActivityManager:
             return a
 
     @classmethod
-    def activity_with_same_category_already_started(cls, user, category):
+    def user_already_started_activity_of_same_category(cls, user, category):
         user_activities = ActivitySearch.user_activities(user)
         for activity in user_activities:
             if activity.category == category and activity.started:
@@ -28,7 +28,7 @@ class ActivityManager:
         return False
 
     @classmethod
-    def any_activity_already_started(cls, user):
+    def user_already_started_an_activity(cls, user):
         user_activities = ActivitySearch.user_activities(user)
         for activity in user_activities:
             if activity.started:
