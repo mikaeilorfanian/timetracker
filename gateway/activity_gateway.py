@@ -16,5 +16,4 @@ class ActivityPersistor:
 
     @classmethod
     def add_new_activity_to_db(cls, activity: Activity) -> None:
-        user_activities = db['activities'].get(activity.user._id, [])
-        user_activities.append(activity)
+        db['activities'][activity.user._id].append(activity)
