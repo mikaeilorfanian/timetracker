@@ -1,7 +1,3 @@
-from ...entities.activity import Activity
-from ...entities.user import UserEntity
-
-
 def test_start_an_activity(test_activity):
     test_activity.start()
     assert test_activity.started is True
