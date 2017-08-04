@@ -4,7 +4,8 @@
 
 
 __pycache__
-
+*.egg
+*.egg-info
 
 # test coverage
 .coverage
