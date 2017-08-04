@@ -38,7 +38,9 @@ class Activity:
 
     @property
     def length(self) -> int:
-        if self.ended_at < self.started_at:
+        if not self.ended_at:
+            return (arrow.utcnow() - self.started_at).seconds
+        elif self.ended_at < self.started_at:
             return 0
-
-        return (self.ended_at - self.started_at).seconds
+        else:
+            return (self.ended_at - self.started_at).seconds
