@@ -1,4 +1,5 @@
 import arrow
+from arrow import Arrow
 
 
 class Activity:
@@ -27,3 +28,10 @@ class Activity:
     @property
     def ended(self):
         return self.status == self.ENDED
+
+    def started_on_this_day(self, date: Arrow) -> bool:
+        return all((
+            self.started_at.year == date.year,
+            self.started_at.month == date.month,
+            self.started_at.day == date.day
+        ))
