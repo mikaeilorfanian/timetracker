@@ -21,7 +21,7 @@ def test_new_activity_added_to_db(test_db, test_user, test_activity):
     assert len(ActivitySearch.user_activities(test_user)) == 1
 
 
-class TestUserActivitiesStartedToday:
+class TestSearchUserActivitiesStartedToday:
 
     def test_no_activities_returned_when_nothing_started_today(self, test_db, test_user):
         assert len(ActivitySearch.user_activities_today(test_user)) == 0
