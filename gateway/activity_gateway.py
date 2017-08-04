@@ -1,3 +1,4 @@
+import arrow
 from typing import List
 
 from . import db
@@ -10,6 +11,11 @@ class ActivitySearch:
     @classmethod
     def user_activities(cls, user: UserEntity) -> List[Activity]:
         return db['activities'].get(user._id, [])
+
+
+    @classmethod
+    def user_activities_today(cls, user: UserEntity) -> List[Activity]:
+        return [activity for activity in cls.user_activities(user) if activity.started_on_this_day(arrow.utcnow())]
 
 
 class ActivityPersistor:
