@@ -35,3 +35,10 @@ class Activity:
             self.started_at.month == date.month,
             self.started_at.day == date.day
         ))
+
+    @property
+    def length(self) -> int:
+        if self.ended_at < self.started_at:
+            return 0
+
+        return (self.ended_at - self.started_at).seconds
