@@ -1,8 +1,9 @@
 from collections import defaultdict
 import os
 
+
 db_type = os.environ.get('DB_ENGINE', 'nosql')
-app_env = os.environ.get('APP_ENVIRONMENT', 'test')
+app_env = os.environ.get('TIMETRACKER_APP_ENVIRONMENT', 'test')
 
 
 class Borg:
