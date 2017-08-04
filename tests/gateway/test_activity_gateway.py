@@ -17,5 +17,4 @@ def test_no_user_activities_are_found_when_user_has_no_activities(test_user):
 
 
 def test_new_activity_added_to_db(test_db, test_user, test_activity):
-    ActivityPersistor.add_new_activity_to_db(test_activity)
     assert len(ActivitySearch.user_activities(test_user)) == 1
