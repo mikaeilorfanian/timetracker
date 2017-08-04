@@ -3,6 +3,7 @@ from ...gateway.activity_gateway import ActivitySearch, ActivityPersistor
 
 def test_correct_user_activities_are_found_when_user_has_multiple_activities(
         test_user, test_sleeping_activity, test_working_activity, test_db):
+
     test_db['activities'][test_user._id] = [test_sleeping_activity,
                                             test_working_activity]
     activities = ActivitySearch.user_activities(test_user)
