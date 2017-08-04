@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/mikaeilorfanian/timetracker/badge.svg?branch=master)](https://coveralls.io/github/mikaeilorfanian/timetracker?branch=master)
 # Get a Grip On Your Time!
 `timetracker` is a simple application that lets you
 * Track the time you spend doing different activities during the day
