@@ -3,6 +3,7 @@ import pytest
 
 from ..entities.user import UserEntity
 from ..gateway import db
+from ..gateway.activity_gateway import ActivityPersistor
 from ..use_cases.activity_manager import ActivityManager
 
 
@@ -29,4 +30,7 @@ def test_working_activity(test_user):
 
 @pytest.fixture
 def test_activity(test_user):
-    return ActivityManager.start_new_activity(test_user, 'test_activity')
+    a = ActivityManager.start_new_activity(test_user, 'test_activity')
+    ActivityPersistor.add_new_activity_to_db(a)
+    return a
+
