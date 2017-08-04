@@ -16,6 +16,10 @@ class ActivitySearch:
     def user_activities_today(cls, user: UserEntity) -> List[Activity]:
         return [activity for activity in cls.user_activities(user) if activity.started_on_this_day(arrow.utcnow())]
 
+    @classmethod
+    def user_activities_today_in_this_category(cls, user: UserEntity, category: str) -> List[Activity]:
+        return [activity for activity in cls.user_activities_today(user) if activity.category == category]
+
 
 class ActivityPersistor:
 
