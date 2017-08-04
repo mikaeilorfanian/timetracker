@@ -4,7 +4,7 @@
 * Generate reports that show you how you've spent your time
 
 ## Why Track Time?
-Before you can improve anything, you need to have awareness of things are right now. `timetracker` reports help you become aware of how you're spending your time. Try it for at least one day and you'll be amazed by the results.
+Before you can improve anything, you need to be aware of how things are right now. `timetracker` reports help you become aware of how you're spending your time. Try it for at least one day and you'll be amazed by the results.
 
 ## How to Use It?
 At this time, `timetracker` is not ready to be used. But, read on to find out what we're planning for it to become.
