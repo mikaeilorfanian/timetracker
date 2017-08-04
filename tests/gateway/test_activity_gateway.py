@@ -37,7 +37,6 @@ class TestSearchUserActivitiesStartedToday:
         assert len(todays_activities) == 1
         assert test_activity in todays_activities
 
-
     def test_user_has_more_than_one_activity_today_and_more_on_other_days(self, test_user_with_multiple_activities_on_multiple_days, test_db, test_activity):
         test_user = test_user_with_multiple_activities_on_multiple_days
         test_working_activity = ActivityManager.start_new_activity(test_user, 'working')
