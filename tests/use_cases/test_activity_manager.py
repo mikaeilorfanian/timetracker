@@ -2,6 +2,7 @@ import pytest
 
 from ...use_cases.activity_manager import ActivityManager, \
     ActivityWithSameCategoryExistsError
+from ...gateway.activity_gateway import ActivitySearch
 from ...entities.activity import Activity
 from ...gateway import db
 
@@ -37,3 +38,12 @@ class TestActivityLengthCalculator:
         test_activity.end()
         test_activity.ended_at = test_activity.started_at.shift(seconds=-100)
         assert test_activity.length == 0
+
+
+class TestEndActivity:
+
+    def test_after_activity_ends_its_status_changes_and_end_time_is_recorded(self, test_activity):
+        ActivityManager.end_activity(test_activity)
+        assert test_activity.ended_at is not None
+        assert test_activity.status != test_activity.STARTED
+        assert ActivitySearch.fetch_from_db(test_activity).status == test_activity.ENDED

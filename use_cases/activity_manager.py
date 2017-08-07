@@ -36,6 +36,6 @@ class ActivityManager:
         return False
 
     @classmethod
-    def end_activity(cls, user, activity):
+    def end_activity(cls, activity):
         a = ActivitySearch.fetch_from_db(activity)
         a.end()
