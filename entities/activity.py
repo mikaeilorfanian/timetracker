@@ -7,10 +7,9 @@ class Activity:
     STARTED = 'started'
     ENDED = 'ended'
 
-    def __init__(self, user, category):
+    def __init__(self, category):
         self.status = None
         self.category = category
-        self.user = user
         self.started_at = None
         self.ended_at = None
         self._id = uuid.uuid4()

@@ -1,4 +1,3 @@
-from collections import defaultdict
 import os
 
 
@@ -26,4 +25,4 @@ class DB(Borg):
 
 if db_type == 'nosql' and app_env == 'test':
     db = DB()
-    db['activities'] = defaultdict(list)
+    db['activities'] = list()
