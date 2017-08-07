@@ -4,7 +4,7 @@ from .utils import load_db_into_memory
 
 
 db_type = os.environ.get('DB_ENGINE', 'nosql')
-app_env = os.environ.get('TIMETRACKER_APP_ENVIRONMENT', 'test')
+app_env = os.environ.get('TIMETRACKER_APP_ENVIRONMENT', 'prod')
 
 
 if app_env == 'test':
