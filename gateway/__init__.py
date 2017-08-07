@@ -15,16 +15,10 @@ else:
 DB_FILE_PATH = os.path.join(os.path.expanduser('~'), 'timetracker', db_name)
 
 
-class Borg:
-    _db = load_db_into_memory(DB_FILE_PATH)
+class DB:
 
     def __init__(self):
-        self.__dict__ = self._db
-
-
-class DB(Borg):
-    def __init__(self):
-        Borg.__init__(self)
+        self.__dict__ = load_db_into_memory(DB_FILE_PATH)
 
     def __getitem__(self, x):
         return self.__dict__[x]
@@ -32,7 +26,11 @@ class DB(Borg):
     def __setitem__(self, key, value):
         self.__dict__[key] = value
 
+    def delete_db(self):
+        try:
+            os.remove(DB_FILE_PATH)
+        except FileNotFoundError:
+            pass
+        self.__dict__ = load_db_into_memory(DB_FILE_PATH)
 
-if db_type == 'nosql' and app_env == 'test':
-    db = DB()
-    db['activities'] = list()
+db = DB()
