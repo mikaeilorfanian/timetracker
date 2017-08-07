@@ -1,4 +1,6 @@
-from ...gateway.activity_gateway import ActivitySearch, ActivityPersistor
+import pytest
+
+from ...gateway.activity_gateway import ActivitySearch, ActivityPersistor, RecordNotFoundError
 from ...use_cases.activity_manager import ActivityManager
 
 class TestSearchUserActivities:
@@ -73,3 +75,15 @@ class TestSearchForUserActivitiesWithSpecificCategoryStartedToday:
         todays_activities = ActivitySearch.user_activities_today_in_this_category(test_user, 'working')
         assert len(todays_activities) == 1
         assert test_working_activity in todays_activities
+
+
+class TestSearchForActivity:
+
+    def test_correct_activity_is_found(self, test_user, test_activity, test_db):
+        activity = ActivitySearch.get_activity(test_user, test_activity)
+        assert activity._id == test_activity._id
+
+    def test_exception_thrown_when_no_activity_found_in_db_with_that_id(self, test_user, test_db):
+        a = ActivityManager.start_new_activity(test_user, 'test_activity')
+        with pytest.raises(RecordNotFoundError):
+            ActivitySearch.get_activity(test_user, a)

@@ -6,7 +6,19 @@ from ..entities.activity import Activity
 from ..entities.user import UserEntity
 
 
+class RecordNotFoundError(Exception):
+    pass
+
+
 class ActivitySearch:
+
+    @classmethod
+    def get_activity(cls, user: UserEntity, activity: Activity) -> Activity:
+        for a in cls.user_activities(user):
+            if a._id == activity._id:
+                return a
+
+        raise RecordNotFoundError('No activity with id %s found in db!' % activity._id)
 
     @classmethod
     def user_activities(cls, user: UserEntity) -> List[Activity]:
