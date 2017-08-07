@@ -13,7 +13,7 @@ class RecordNotFoundError(Exception):
 class ActivitySearch:
 
     @classmethod
-    def get_activity(cls, user: UserEntity, activity: Activity) -> Activity:
+    def fetch_from_db(cls, user: UserEntity, activity: Activity) -> Activity:
         for a in cls.user_activities(user):
             if a._id == activity._id:
                 return a
