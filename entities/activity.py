@@ -1,5 +1,6 @@
 import arrow
 from arrow import Arrow
+import uuid
 
 
 class Activity:
@@ -12,6 +13,7 @@ class Activity:
         self.user = user
         self.started_at = None
         self.ended_at = None
+        self._id = uuid.uuid4()
 
     def start(self):
         self.status = self.STARTED

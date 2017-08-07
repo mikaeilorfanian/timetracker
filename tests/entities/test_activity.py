@@ -6,6 +6,7 @@ def test_start_an_activity(test_activity):
     assert test_activity.started is True
     assert test_activity.started_at is not None
     assert test_activity.ended_at is None
+    assert test_activity._id is not None
 
 
 def test_end_an_activity(test_activity):
