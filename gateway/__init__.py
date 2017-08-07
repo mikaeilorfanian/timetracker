@@ -1,15 +1,21 @@
 import os
 
+from .utils import load_db_into_memory
+
 
 db_type = os.environ.get('DB_ENGINE', 'nosql')
 app_env = os.environ.get('TIMETRACKER_APP_ENVIRONMENT', 'test')
+db_name = os.environ.get('DB_FILE_NAME', 'timetracker_test_db')
+
+
+DB_FILE_PATH = os.path.join(os.path.expanduser('~'), 'timetracker', db_name)
 
 
 class Borg:
-    _shared_state = {}
+    _db = load_db_into_memory(DB_FILE_PATH)
 
     def __init__(self):
-        self.__dict__ = self._shared_state
+        self.__dict__ = self._db
 
 
 class DB(Borg):
