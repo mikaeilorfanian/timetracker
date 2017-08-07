@@ -1,5 +1,5 @@
-from ..entities.activity import Activity
-from ..gateway.activity_gateway import ActivitySearch
+from entities.activity import Activity
+from gateway.activity_gateway import ActivitySearch
 
 
 class ActivityWithSameCategoryExistsError(Exception):

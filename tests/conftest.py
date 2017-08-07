@@ -1,8 +1,8 @@
 import pytest
 
-from ..gateway import db
-from ..gateway.activity_gateway import ActivityPersistor
-from ..use_cases.activity_manager import ActivityManager
+from gateway import db
+from gateway.activity_gateway import ActivityPersistor
+from use_cases.activity_manager import ActivityManager
 
 
 @pytest.fixture(scope='function')

@@ -1,6 +1,6 @@
 from typing import Dict
 
-from ..gateway.activity_gateway import ActivitySearch
+from gateway.activity_gateway import ActivitySearch
 
 
 class TimeSpentInCategoryReport:

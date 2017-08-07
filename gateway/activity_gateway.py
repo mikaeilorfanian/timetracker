@@ -2,7 +2,7 @@ import arrow
 from typing import List
 
 from . import db
-from ..entities.activity import Activity
+from entities.activity import Activity
 
 
 class RecordNotFoundError(Exception):
