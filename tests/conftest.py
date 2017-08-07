@@ -8,7 +8,7 @@ from use_cases.activity_manager import ActivityManager
 @pytest.fixture(scope='function')
 def test_db():
     yield db
-    db['activities'] = list()
+    db.delete_db()
 
 
 @pytest.fixture
