@@ -48,7 +48,7 @@ class TestSearchUserActivitiesStartedToday:
         assert test_working_activity in todays_activities
 
 
-class TestUserActivitiesWithSpecificCategoryStartedToday:
+class TestSearchForUserActivitiesWithSpecificCategoryStartedToday:
 
     def test_no_activities_returned_when_nothing_started_today(self, test_db, test_user):
         assert len(ActivitySearch.user_activities_today_in_this_category(test_user, 'working')) == 0
