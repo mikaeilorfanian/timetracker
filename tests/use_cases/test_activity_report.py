@@ -1,6 +1,6 @@
-from ...gateway.activity_gateway import ActivityPersistor
-from ...use_cases.activity_manager import ActivityManager
-from ...use_cases.activity_report import TimeSpentInCategoryReport
+from gateway.activity_gateway import ActivityPersistor
+from use_cases.activity_manager import ActivityManager
+from use_cases.activity_report import TimeSpentInCategoryReport
 
 
 class TestTodayReportForSpecificActivity:

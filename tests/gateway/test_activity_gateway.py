@@ -1,7 +1,7 @@
 import pytest
 
-from ...gateway.activity_gateway import ActivitySearch, ActivityPersistor, RecordNotFoundError
-from ...use_cases.activity_manager import ActivityManager
+from gateway.activity_gateway import ActivitySearch, ActivityPersistor, RecordNotFoundError
+from use_cases.activity_manager import ActivityManager
 
 
 class TestSearchUserActivities:

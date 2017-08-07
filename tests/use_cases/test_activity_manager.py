@@ -1,10 +1,10 @@
 import pytest
 
-from ...use_cases.activity_manager import ActivityManager, \
+from use_cases.activity_manager import ActivityManager, \
     ActivityWithSameCategoryExistsError
-from ...gateway.activity_gateway import ActivitySearch
-from ...entities.activity import Activity
-from ...gateway import db
+from gateway.activity_gateway import ActivitySearch
+from entities.activity import Activity
+from gateway import db
 
 
 def test_user_cant_start_more_than_one_activity_in_same_category_at_once():
