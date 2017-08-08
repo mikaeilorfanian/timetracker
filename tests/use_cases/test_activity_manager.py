@@ -47,4 +47,4 @@ class TestEndActivity:
         ActivityManager.end_activity(test_activity)
         assert test_activity.ended_at is not None
         assert test_activity.status != test_activity.STARTED
-        assert ActivityGateway.fetch_from_db(test_activity).status == test_activity.ENDED
+        assert ActivityGateway.fetch_activity(test_activity).status == test_activity.ENDED

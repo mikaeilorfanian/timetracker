@@ -12,7 +12,7 @@ class RecordNotFoundError(Exception):
 class ActivityGateway:
 
     @classmethod
-    def fetch_from_db(cls, activity: Activity) -> Activity:
+    def fetch_activity(cls, activity: Activity) -> Activity:
         for a in cls.activities():
             if a._id == activity._id:
                 return a

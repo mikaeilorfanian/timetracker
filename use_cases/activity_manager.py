@@ -27,5 +27,5 @@ class ActivityManager:
 
     @classmethod
     def end_activity(cls, activity):
-        a = ActivityGateway.fetch_from_db(activity)
+        a = ActivityGateway.fetch_activity(activity)
         a.end()
