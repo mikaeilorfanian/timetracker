@@ -49,3 +49,15 @@ class TestEndActivity:
         assert test_activity.ended_at is not None
         assert test_activity.status != test_activity.STARTED
         assert ActivityGateway.fetch_activity(test_activity).status == test_activity.ENDED
+
+    def test_method_stops_tracking_last_activity_properly_when_theres_only_one_in_db(self, test_activity):
+        ActivityManager.stop_tracking_last_activity()
+        assert ActivityGateway.fetch_last_activity_started()._id == test_activity._id
+        assert ActivityGateway.fetch_last_activity_started().ended
+
+    def test_method_stops_tracking_last_activity_properly_when_there_are_more_than_one_activities_in_db(
+            self, test_activity, test_user_with_multiple_activities_on_multiple_days):
+        ActivityManager.stop_tracking_last_activity()
+        assert ActivityGateway.fetch_last_activity_started()._id == test_activity._id
+        assert ActivityGateway.fetch_last_activity_started().ended
+
