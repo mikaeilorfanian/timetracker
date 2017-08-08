@@ -12,6 +12,10 @@ class RecordNotFoundError(Exception):
 class ActivityGateway:
 
     @classmethod
+    def fetch_last_activity_started(cls) -> Activity:
+        return sorted(cls.activities(), key=lambda activity: activity.started_at, reverse=True)[0]
+
+    @classmethod
     def fetch_activity(cls, activity: Activity) -> Activity:
         for a in cls.activities():
             if a._id == activity._id:

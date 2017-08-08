@@ -45,6 +45,18 @@ class TestSearchUserActivities:
         with pytest.raises(RecordNotFoundError):
             ActivityGateway.fetch_activity(test_activity)
 
+    def test_correct_last_activity_returned_based_on_when_activity_was_created(
+            self, test_user_with_multiple_activities_on_multiple_days):
+        latest_activity = ActivityManager.start_new_activity('break')
+        ActivityGateway.add_new_activity_to_db(latest_activity)
+        assert ActivityGateway.fetch_last_activity_started()._id == latest_activity._id
+
+    def test_correct_last_activity_returned_when_theres_only_one_activity_in_db(self, test_activity):
+        assert ActivityGateway.fetch_last_activity_started()._id == test_activity._id
+
+    def test_error_thrown_for_last_activity_started_when_theres_no_activities_in_db(self):
+        with pytest.raises(IndexError):
+            ActivityGateway.fetch_last_activity_started()
 
 
 def test_new_activity_added_to_db(test_db, test_activity):
