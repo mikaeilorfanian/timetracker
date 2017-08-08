@@ -1,7 +1,11 @@
 import pytest
 
-from use_cases.activity_manager import ActivityManager, \
-    ActivityWithSameCategoryExistsError
+from use_cases.activity_manager import (
+    ActivityManager,
+    ActivityWithSameCategoryExistsError,
+    AnotherActivityInProgressError,
+)
+
 from gateway.activity_gateway import ActivityGateway
 from entities.activity import Activity
 from gateway import db
@@ -21,7 +25,7 @@ def test_user_cant_engage_in_more_than_one_activity_at_once():
     a.start()
     db.data = [a]
 
-    with pytest.raises(ActivityWithSameCategoryExistsError):
+    with pytest.raises(AnotherActivityInProgressError):
         ActivityManager.start_new_activity('sleeping')
 
 

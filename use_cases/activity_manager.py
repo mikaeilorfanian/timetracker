@@ -2,6 +2,10 @@ from entities.activity import Activity
 from gateway.activity_gateway import ActivityGateway
 
 
+class AnotherActivityInProgressError(Exception):
+    pass
+
+
 class ActivityWithSameCategoryExistsError(Exception):
     pass
 
@@ -11,7 +15,7 @@ class ActivityManager:
     @classmethod
     def start_new_activity(cls, category):
         if cls.user_already_started_an_activity():
-            raise ActivityWithSameCategoryExistsError
+            raise AnotherActivityInProgressError
         elif cls.user_already_started_activity_of_same_category(category):
             raise ActivityWithSameCategoryExistsError
         else:
