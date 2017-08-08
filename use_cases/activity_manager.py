@@ -24,8 +24,3 @@ class ActivityManager:
             if activity.started:
                 return True
         return False
-
-    @classmethod
-    def end_activity(cls, activity):
-        a = ActivityGateway.fetch_activity(activity)
-        a.end()

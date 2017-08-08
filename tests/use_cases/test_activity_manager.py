@@ -44,7 +44,8 @@ class TestActivityLengthCalculator:
 class TestEndActivity:
 
     def test_after_activity_ends_its_status_changes_and_end_time_is_recorded(self, test_activity):
-        ActivityManager.end_activity(test_activity)
+        test_activity.end()
+        ActivityGateway.update_activity_in_db(test_activity)
         assert test_activity.ended_at is not None
         assert test_activity.status != test_activity.STARTED
         assert ActivityGateway.fetch_activity(test_activity).status == test_activity.ENDED
