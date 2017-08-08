@@ -61,3 +61,20 @@ class TestEndActivity:
         assert ActivityGateway.fetch_last_activity_started()._id == test_activity._id
         assert ActivityGateway.fetch_last_activity_started().ended
 
+
+class TestStartTrackingActivity:
+
+    def test_starting_to_track_new_activity_automatically_stops_tracking_the_last_one(self, test_activity):
+        assert not test_activity.ended
+        ActivityManager.start_tracking_new_activity('break')
+        assert ActivityGateway.fetch_activity(test_activity).ended
+
+    def test_starting_to_track_new_activity_puts_the_activity_int_the_db(self, test_activity):
+        assert len(ActivityGateway.activities()) == 1
+        ActivityManager.start_tracking_new_activity('break')
+        assert len(ActivityGateway.activities()) == 2
+        assert not ActivityGateway.fetch_last_activity_started().ended
+
+    def test_start_tracking_the_first_activity(self):
+        ActivityManager.start_tracking_new_activity('break')
+        assert len(ActivityGateway.activities()) == 1

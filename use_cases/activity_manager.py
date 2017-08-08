@@ -9,6 +9,12 @@ class AnotherActivityInProgressError(Exception):
 class ActivityManager:
 
     @classmethod
+    def start_tracking_new_activity(cls, category: str) -> Activity:
+        cls.stop_tracking_last_activity()
+        a = cls.start_new_activity(category)
+        ActivityGateway.add_new_activity_to_db(a)
+        return a
+
     @classmethod
     def stop_tracking_last_activity(cls) -> None:
         try:
