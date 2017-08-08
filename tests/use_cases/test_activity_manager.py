@@ -10,8 +10,7 @@ from gateway import db
 def test_user_cant_start_more_than_one_activity_in_same_category_at_once():
     a = Activity('working')
     a.start()
-    db['activities'] = dict()
-    db['activities'] = [a]
+    db.data = [a]
 
     with pytest.raises(ActivityWithSameCategoryExistsError):
         ActivityManager.start_new_activity('working')
@@ -20,8 +19,7 @@ def test_user_cant_start_more_than_one_activity_in_same_category_at_once():
 def test_user_cant_engage_in_more_than_one_activity_at_once():
     a = Activity('working')
     a.start()
-    db['activities'] = dict()
-    db['activities'] = [a]
+    db.data = [a]
 
     with pytest.raises(ActivityWithSameCategoryExistsError):
         ActivityManager.start_new_activity('sleeping')

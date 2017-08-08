@@ -17,21 +17,30 @@ DB_FILE_PATH = os.path.join(os.path.expanduser('~'), 'timetracker', db_name)
 
 class DB:
 
-    def __init__(self):
-        self.__dict__ = load_db_into_memory(DB_FILE_PATH)
+    def __init__(self, db_file_name):
+        self.db_file_name = db_file_name
+        self._in_memory_db = None
 
-    def __getitem__(self, x):
-        return self.__dict__[x]
+    @property
+    def data(self):
+        return self.load_db_into_memory()['activities']
 
-    def __setitem__(self, key, value):
-        self.__dict__[key] = value
+    @data.setter
+    def data(self, new_data):
+        self._in_memory_db = {'activities': new_data}
+        self.commit()
+
 
     def delete_db(self):
         try:
             os.remove(DB_FILE_PATH)
         except FileNotFoundError:
             pass
-        self.__dict__ = load_db_into_memory(DB_FILE_PATH)
+
+    def commit(self):
+        with open(self.db_file_name, 'wb') as fp:
+            pickle.dump(self._in_memory_db, fp)
+
     def load_db_into_memory(self):
         if not os.path.exists(self.db_file_name):
             self.create_empty_db_file()

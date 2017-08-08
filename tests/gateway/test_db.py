@@ -19,12 +19,13 @@ class TestMethodLoadsDBFileContentsIntoMemory:
     def test_empty_db_is_returned_when_nothing_has_been_saved_in_it_yet(self):
         db = DB(DB_FILE_PATH)
         db = db.load_db_into_memory()
-        assert db['activities'] == list()
+        assert db.data == list()
 
     def test_db_content_is_returned_when_theres_something_in_it(self, test_activity):
-        db = load_db_into_memory(DB_FILE_PATH)
-        db['activities'] = [test_activity]
+        db = DB(DB_FILE_PATH)
+        db = db.load_db_into_memory()
+        db.data = [test_activity]
         with open(DB_FILE_PATH, 'wb') as fp:
             pickle.dump(db, fp)
 
-        assert test_activity._id == load_db_into_memory(DB_FILE_PATH)['activities'][0]._id
+        assert test_activity._id == db.load_db_into_memory()['activities'][0]._id

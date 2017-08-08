@@ -21,7 +21,7 @@ class ActivityGateway:
 
     @classmethod
     def activities(cls) -> List[Activity]:
-        return db['activities']
+        return db.data
 
     @classmethod
     def activities_today(cls) -> List[Activity]:
@@ -33,4 +33,4 @@ class ActivityGateway:
 
     @classmethod
     def add_new_activity_to_db(cls, activity: Activity) -> None:
-        db['activities'].append(activity)
+        db.data = db.data.append(activity)
