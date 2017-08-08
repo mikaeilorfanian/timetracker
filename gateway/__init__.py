@@ -32,5 +32,15 @@ class DB:
         except FileNotFoundError:
             pass
         self.__dict__ = load_db_into_memory(DB_FILE_PATH)
+    def load_db_into_memory(self):
+        if not os.path.exists(self.db_file_name):
+            self.create_empty_db_file()
 
-db = DB()
+        with open(self.db_file_name, 'rb') as fp:
+            return pickle.load(fp)
+
+    def create_empty_db_file(self):
+        os.makedirs(os.path.dirname(self.db_file_name), exist_ok=True)
+        with open(self.db_file_name, 'wb') as fp:
+            pickle.dump({'activities': list()}, fp)
+
