@@ -1,4 +1,4 @@
-from gateway.activity_gateway import ActivityPersistor
+from gateway.activity_gateway import ActivityGateway
 from use_cases.activity_manager import ActivityManager
 from use_cases.activity_report import TimeSpentInCategoryReport
 
@@ -15,6 +15,7 @@ class TestTodayReportForSpecificActivity:
                                                                                                   test_activity):
         test_activity.end()
         test_activity.ended_at = test_activity.started_at.shift(seconds=100)
+        ActivityGateway.update_activity_in_db(test_activity)
 
         report = TimeSpentInCategoryReport.generate_for_this_category_of_activity(test_activity.category)
         assert report[test_activity.category] == 100
@@ -23,6 +24,7 @@ class TestTodayReportForSpecificActivity:
                                                                                                   test_db,
                                                                                                   test_activity):
         test_activity.started_at = test_activity.started_at.shift(seconds=-1000)
+        ActivityGateway.update_activity_in_db(test_activity)
         report = TimeSpentInCategoryReport.generate_for_this_category_of_activity(test_activity.category)
         assert report[test_activity.category] == 1000
 
@@ -34,8 +36,8 @@ class TestTodayReportForSpecificActivity:
     def test_activity_was_performed_multiple_times_today_and_all_except_one_already_ended(
             self, test_db, test_user_with_multiple_activities_of_same_category_done_today, test_activity):
         unfinished_activity = ActivityManager.start_new_activity(test_activity.category)
-        ActivityPersistor.add_new_activity_to_db(unfinished_activity)
         unfinished_activity.started_at = unfinished_activity.started_at.shift(seconds=-500)
+        ActivityGateway.add_new_activity_to_db(unfinished_activity)
 
         report = TimeSpentInCategoryReport.generate_for_this_category_of_activity(test_activity.category)
         assert report[test_activity.category] == 8500
