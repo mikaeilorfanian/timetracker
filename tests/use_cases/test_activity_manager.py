@@ -2,7 +2,7 @@ import pytest
 
 from use_cases.activity_manager import ActivityManager, \
     ActivityWithSameCategoryExistsError
-from gateway.activity_gateway import ActivitySearch
+from gateway.activity_gateway import ActivityGateway
 from entities.activity import Activity
 from gateway import db
 
@@ -46,4 +46,4 @@ class TestEndActivity:
         ActivityManager.end_activity(test_activity)
         assert test_activity.ended_at is not None
         assert test_activity.status != test_activity.STARTED
-        assert ActivitySearch.fetch_from_db(test_activity).status == test_activity.ENDED
+        assert ActivityGateway.fetch_from_db(test_activity).status == test_activity.ENDED

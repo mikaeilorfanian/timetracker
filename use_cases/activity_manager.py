@@ -1,5 +1,5 @@
 from entities.activity import Activity
-from gateway.activity_gateway import ActivitySearch
+from gateway.activity_gateway import ActivityGateway
 
 
 class ActivityWithSameCategoryExistsError(Exception):
@@ -21,7 +21,7 @@ class ActivityManager:
 
     @classmethod
     def user_already_started_activity_of_same_category(cls, category):
-        user_activities = ActivitySearch.user_activities()
+        user_activities = ActivityGateway.user_activities()
         for activity in user_activities:
             if activity.category == category and activity.started:
                 return True
@@ -29,7 +29,7 @@ class ActivityManager:
 
     @classmethod
     def user_already_started_an_activity(cls):
-        user_activities = ActivitySearch.user_activities()
+        user_activities = ActivityGateway.user_activities()
         for activity in user_activities:
             if activity.started:
                 return True
@@ -37,5 +37,5 @@ class ActivityManager:
 
     @classmethod
     def end_activity(cls, activity):
-        a = ActivitySearch.fetch_from_db(activity)
+        a = ActivityGateway.fetch_from_db(activity)
         a.end()

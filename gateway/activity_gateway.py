@@ -9,7 +9,7 @@ class RecordNotFoundError(Exception):
     pass
 
 
-class ActivitySearch:
+class ActivityGateway:
 
     @classmethod
     def fetch_from_db(cls, activity: Activity) -> Activity:
