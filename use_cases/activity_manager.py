@@ -11,9 +11,12 @@ class ActivityManager:
     @classmethod
     @classmethod
     def stop_tracking_last_activity(cls) -> None:
-        a = ActivityGateway.fetch_last_activity_started()
-        a.end()
-        ActivityGateway.update_activity_in_db(a)
+        try:
+            a = ActivityGateway.fetch_last_activity_started()
+            a.end()
+            ActivityGateway.update_activity_in_db(a)
+        except IndexError:
+            pass
 
     @classmethod
     def start_new_activity(cls, category):
