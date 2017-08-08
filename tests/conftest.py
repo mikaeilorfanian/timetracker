@@ -47,13 +47,16 @@ def test_user_with_multiple_activities_on_multiple_days(test_activity):
 def test_user_with_multiple_activities_of_same_category_done_today(test_activity):
     test_activity.end()
     test_activity.ended_at = test_activity.started_at.shift(seconds=2000)
+    ActivityGateway.update_activity_in_db(test_activity)
 
     second_activity = ActivityManager.start_new_activity(test_activity.category)
     ActivityGateway.add_new_activity_to_db(second_activity)
     second_activity.end()
     second_activity.ended_at = second_activity.started_at.shift(seconds=3000)
+    ActivityGateway.update_activity_in_db(second_activity)
 
     third_activity = ActivityManager.start_new_activity(test_activity.category)
     ActivityGateway.add_new_activity_to_db(third_activity)
     third_activity.end()
     third_activity.ended_at = third_activity.started_at.shift(seconds=3000)
+    ActivityGateway.update_activity_in_db(third_activity)
