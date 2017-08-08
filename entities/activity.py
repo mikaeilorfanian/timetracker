@@ -45,3 +45,7 @@ class Activity:
             return 0
         else:
             return (self.ended_at - self.started_at).seconds
+
+    def __str__(self):
+        return 'ID: {}, started: {}, ended: {}, length: {} seconds'.format(self._id, self.started_at, self.ended_at,
+                                                                           self.length)
