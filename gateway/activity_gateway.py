@@ -31,9 +31,6 @@ class ActivityGateway:
     def user_activities_today_in_this_category(cls, category: str) -> List[Activity]:
         return [activity for activity in cls.user_activities_today() if activity.category == category]
 
-
-class ActivityPersistor:
-
     @classmethod
     def add_new_activity_to_db(cls, activity: Activity) -> None:
         db['activities'].append(activity)
