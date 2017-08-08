@@ -31,16 +31,17 @@ def test_activity():
 @pytest.fixture
 def test_user_with_multiple_activities_on_multiple_days(test_activity):
     test_activity.end()
+    ActivityGateway.update_activity_in_db(test_activity)
 
     test_sleeping_activity = ActivityManager.start_new_activity('sleeping')
     test_sleeping_activity.started_at = test_sleeping_activity.started_at.shift(days=-1)
-    ActivityGateway.add_new_activity_to_db(test_sleeping_activity)
     test_sleeping_activity.end()
+    ActivityGateway.add_new_activity_to_db(test_sleeping_activity)
 
     test_working_activity = ActivityManager.start_new_activity('working')
     test_working_activity.started_at = test_working_activity.started_at.shift(days=-2)
-    ActivityGateway.add_new_activity_to_db(test_working_activity)
     test_working_activity.end()
+    ActivityGateway.add_new_activity_to_db(test_working_activity)
 
 
 @pytest.fixture
@@ -50,13 +51,11 @@ def test_user_with_multiple_activities_of_same_category_done_today(test_activity
     ActivityGateway.update_activity_in_db(test_activity)
 
     second_activity = ActivityManager.start_new_activity(test_activity.category)
-    ActivityGateway.add_new_activity_to_db(second_activity)
     second_activity.end()
     second_activity.ended_at = second_activity.started_at.shift(seconds=3000)
-    ActivityGateway.update_activity_in_db(second_activity)
+    ActivityGateway.add_new_activity_to_db(second_activity)
 
     third_activity = ActivityManager.start_new_activity(test_activity.category)
-    ActivityGateway.add_new_activity_to_db(third_activity)
     third_activity.end()
     third_activity.ended_at = third_activity.started_at.shift(seconds=3000)
-    ActivityGateway.update_activity_in_db(third_activity)
+    ActivityGateway.add_new_activity_to_db(third_activity)
