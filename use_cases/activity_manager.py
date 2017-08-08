@@ -21,7 +21,7 @@ class ActivityManager:
 
     @classmethod
     def user_already_started_activity_of_same_category(cls, category):
-        user_activities = ActivityGateway.user_activities()
+        user_activities = ActivityGateway.activities()
         for activity in user_activities:
             if activity.category == category and activity.started:
                 return True
@@ -29,7 +29,7 @@ class ActivityManager:
 
     @classmethod
     def user_already_started_an_activity(cls):
-        user_activities = ActivityGateway.user_activities()
+        user_activities = ActivityGateway.activities()
         for activity in user_activities:
             if activity.started:
                 return True
