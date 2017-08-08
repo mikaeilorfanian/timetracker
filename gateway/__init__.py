@@ -19,7 +19,7 @@ class DB:
 
     def __init__(self, db_file_name):
         self.db_file_name = db_file_name
-        self._in_memory_db = None
+        self._in_memory_db = self.load_db_into_memory()
 
     @property
     def data(self):
