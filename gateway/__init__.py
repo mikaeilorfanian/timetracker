@@ -1,6 +1,5 @@
+import pickle
 import os
-
-from .utils import load_db_into_memory
 
 
 app_env = os.environ.get('TIMETRACKER_APP_ENVIRONMENT', 'prod')
@@ -30,10 +29,9 @@ class DB:
         self._in_memory_db = {'activities': new_data}
         self.commit()
 
-
     def delete_db(self):
         try:
-            os.remove(DB_FILE_PATH)
+            os.remove(self.db_file_name)
         except FileNotFoundError:
             pass
 
@@ -53,3 +51,5 @@ class DB:
         with open(self.db_file_name, 'wb') as fp:
             pickle.dump({'activities': list()}, fp)
 
+
+db = DB(DB_FILE_PATH)
