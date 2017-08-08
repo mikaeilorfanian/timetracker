@@ -1,8 +1,7 @@
 import pickle
 import os
 
-from gateway import DB_FILE_PATH
-from gateway.utils import load_db_into_memory
+from gateway import DB, DB_FILE_PATH
 
 
 class TestMethodLoadsDBFileContentsIntoMemory:
@@ -13,11 +12,13 @@ class TestMethodLoadsDBFileContentsIntoMemory:
         except FileNotFoundError:
             pass
 
-        load_db_into_memory(DB_FILE_PATH)
+        db = DB(DB_FILE_PATH)
+        db.load_db_into_memory()
         assert os.path.exists(DB_FILE_PATH)
 
     def test_empty_db_is_returned_when_nothing_has_been_saved_in_it_yet(self):
-        db = load_db_into_memory(DB_FILE_PATH)
+        db = DB(DB_FILE_PATH)
+        db = db.load_db_into_memory()
         assert db['activities'] == list()
 
     def test_db_content_is_returned_when_theres_something_in_it(self, test_activity):
