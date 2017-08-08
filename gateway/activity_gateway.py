@@ -20,16 +20,16 @@ class ActivityGateway:
         raise RecordNotFoundError('No activity with id %s found in db!' % activity._id)
 
     @classmethod
-    def activities(cls) -> List[Activity]:
-        return db.data
+    def activities_today_in_this_category(cls, category: str) -> List[Activity]:
+        return [activity for activity in cls.activities_today() if activity.category == category]
 
     @classmethod
     def activities_today(cls) -> List[Activity]:
         return [activity for activity in cls.activities() if activity.started_on_this_day(arrow.utcnow())]
 
     @classmethod
-    def activities_today_in_this_category(cls, category: str) -> List[Activity]:
-        return [activity for activity in cls.activities_today() if activity.category == category]
+    def activities(cls) -> List[Activity]:
+        return db.data
 
     @classmethod
     def add_new_activity_to_db(cls, activity: Activity) -> None:
