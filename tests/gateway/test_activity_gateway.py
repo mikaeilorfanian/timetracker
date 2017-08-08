@@ -19,6 +19,33 @@ class TestSearchUserActivities:
         activities = ActivityGateway.activities()
         assert len(activities) == 0
 
+    def test_new_activity_turns_up_in_search_results(self, test_db, test_activity):
+        assert len(ActivityGateway.activities()) == 1
+        test_activity.end()
+        ActivityGateway.update_activity_in_db(test_activity)
+
+        a = ActivityManager.start_new_activity('test2_activity')
+        ActivityGateway.add_new_activity_to_db(a)
+        assert len(ActivityGateway.activities()) == 2
+
+    def test_activity_updated_is_persisted(self, test_activity):
+        a = ActivityGateway.fetch_activity(test_activity)
+        assert a.ended is False
+
+        test_activity.end()
+        ActivityGateway.update_activity_in_db(test_activity)
+
+        a = ActivityGateway.fetch_activity(test_activity)
+        assert a.ended is True
+
+    def test_activity_is_removed_from_db(self, test_activity):
+        assert ActivityGateway.fetch_activity(test_activity) is not None
+        ActivityGateway.remove_activity_from_db(test_activity)
+
+        with pytest.raises(RecordNotFoundError):
+            ActivityGateway.fetch_activity(test_activity)
+
+
 
 def test_new_activity_added_to_db(test_db, test_activity):
     assert len(ActivityGateway.activities()) == 1
