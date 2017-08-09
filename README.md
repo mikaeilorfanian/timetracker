@@ -11,7 +11,7 @@ Before you can improve anything, you need to be aware of how things are right no
 
 ## How to Use It
 #### How to Install It?
-First, install `timetracker` on your machine. Note that you need to have any 3.X version of Python installed along with `pip`.    
+First, install `timetracker` on your machine. Note that you need to have Python 3.5 or 3.6 installed along with `pip`.
 Second, install `timetracker` using `pip` like this   
 ```
 pip install git+https://github.com/mikaeilorfanian/timetracker.git
