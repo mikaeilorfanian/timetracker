@@ -1,5 +1,9 @@
+import pytest
+from typing import List
+
 from gateway.activity_gateway import ActivityGateway
 from use_cases.activity_manager import ActivityManager
+from use_cases.activity_report import format_seconds_returnbed_by_report
 from use_cases.activity_report import TimeSpentInCategoryReport
 
 
@@ -41,3 +45,99 @@ class TestTodayReportForSpecificActivity:
 
         report = TimeSpentInCategoryReport.generate_for_this_category_of_activity(test_activity.category)
         assert report[test_activity.category] == 8500
+
+
+class TestUtilityFunctionThatPrettyPrintsSecondsFromTheReports:
+
+    def test_throws_error_when_it_gets_wrong_values_like_negative_numbers_and_non_integers(self):
+        with pytest.raises(ValueError):
+            print(format_seconds_returnbed_by_report(-1))
+        with pytest.raises(TypeError):
+            format_seconds_returnbed_by_report('23')
+
+    def test_shows_seconds_when_number_of_seconds_doesnt_reach_minutes(self):
+        assert 'seconds' in format_seconds_returnbed_by_report(59)
+        assert '59' in format_seconds_returnbed_by_report(59)
+
+        assert 'second' in format_seconds_returnbed_by_report(1) and not 'seconds' in \
+                                                                         format_seconds_returnbed_by_report(1)
+        assert '1' in format_seconds_returnbed_by_report(1)
+
+        assert 'seconds' in format_seconds_returnbed_by_report(22)
+        assert '22' in format_seconds_returnbed_by_report(22)
+
+    def test_shows_minutes_when_number_of_seconds_doesnt_reach_hours_but_reaches_minutes(self):
+        assert 'minute' in format_seconds_returnbed_by_report(60) and not 'minutes' in \
+                                                                          format_seconds_returnbed_by_report(60)
+        assert '1' in format_seconds_returnbed_by_report(60)
+
+        assert 'minute' in format_seconds_returnbed_by_report(61) and not 'minutes' in \
+                                                                          format_seconds_returnbed_by_report(60)
+        assert '1' in format_seconds_returnbed_by_report(61)
+
+        assert 'minute' in format_seconds_returnbed_by_report(119) and not 'minutes' in \
+                                                                          format_seconds_returnbed_by_report(60)
+        assert '1' in format_seconds_returnbed_by_report(119)
+
+        assert 'minutes' in format_seconds_returnbed_by_report(120)
+        assert '2' in format_seconds_returnbed_by_report(120)
+
+        assert 'minutes' in format_seconds_returnbed_by_report(2345)
+        assert '39' in format_seconds_returnbed_by_report(2345)
+
+        assert 'minutes' in format_seconds_returnbed_by_report(3599)
+        assert '59' in format_seconds_returnbed_by_report(3599)
+
+    def test_shows_hours_and_minutes_and_no_seconds_when_number_of_seconds_reaches_hours(self):
+        # no minutes when the number of minutes is zero
+        self._assert_these_strings_are_in_the_result(3600, ['hour', '1'])
+        self._assert_these_strings_are_not_in_the_result(3600, ['hours', 'minutes', 'minute', 'seconds', 'second'])
+
+        self._assert_these_strings_are_in_the_result(6199, ['hour', 'minutes', '43'])
+        self._assert_these_strings_are_not_in_the_result(6199, ['hours', 'seconds', 'second'])
+
+        self._assert_these_strings_are_not_in_the_result(7200, ['seconds', 'second', 'minutes', 'minute'])
+        self._assert_these_strings_are_in_the_result(7200, ['hours', '2'])
+
+        self._assert_these_strings_are_not_in_the_result(10000, ['seconds', 'second'])
+        self._assert_these_strings_are_in_the_result(10000, ['hours', '2', 'minutes', '46'])
+
+        self._assert_these_strings_are_not_in_the_result(10800, ['seconds', 'second', 'minute', 'minutes'])
+        self._assert_these_strings_are_in_the_result(10800, ['hours', '3'])
+
+        # no seconds and no minutes when the number of seconds doesn't reach 60
+        self._assert_these_strings_are_not_in_the_result(10801, ['seconds', 'second', 'minute', 'minutes'])
+        self._assert_these_strings_are_in_the_result(10801, ['hours', '3'])
+
+        # no seconds and no minutes when the number of seconds doesn't reach 60
+        self._assert_these_strings_are_not_in_the_result(3601, ['seconds', 'second', 'minute', 'minutes'])
+        self._assert_these_strings_are_in_the_result(3601, ['hour', '1'])
+
+        # no seconds and no minutes when the number of seconds doesn't reach 60
+        self._assert_these_strings_are_not_in_the_result(3610, ['seconds', 'second', 'minute', 'minutes'])
+        self._assert_these_strings_are_in_the_result(3610, ['hour', '1'])
+
+        self._assert_these_strings_are_not_in_the_result(4987, ['seconds', 'second'])
+        self._assert_these_strings_are_in_the_result(4987, ['hour', '1', '23', 'minutes'])
+
+        # singular unit for minutes --> "minute"
+        self._assert_these_strings_are_in_the_result(7261, ['hours', '2', '1', 'minute'])
+        self._assert_these_strings_are_not_in_the_result(7261, ['seconds', 'second'])
+
+        self._assert_these_strings_are_in_the_result(7315, ['hours', '2', '1', 'minute'])
+        self._assert_these_strings_are_not_in_the_result(7315, ['seconds', 'second'])
+
+        self._assert_these_strings_are_in_the_result(7592, ['hours', '2', '6', 'minutes'])
+        self._assert_these_strings_are_not_in_the_result(7592, ['seconds', 'second'])
+
+
+    def test_prints_nothing_when_it_receives_zero_seconds(self):
+        assert 'nothing' in format_seconds_returnbed_by_report(0)
+
+    def _assert_these_strings_are_in_the_result(self, seconds: int, strings_list: List[str]) -> None:
+        for string in strings_list:
+            assert string in format_seconds_returnbed_by_report(seconds)
+
+    def _assert_these_strings_are_not_in_the_result(self, seconds: int, strings_list: List[str]) -> None:
+        for string in strings_list:
+            assert string not in format_seconds_returnbed_by_report(seconds)
