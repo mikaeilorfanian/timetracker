@@ -49,3 +49,7 @@ class Activity:
     def __str__(self):
         return 'ID: {}, started: {}, ended: {}, length: {} seconds'.format(self._id, self.started_at, self.ended_at,
                                                                            self.length)
+
+    def __repr__(self):
+        return 'ID: {}, started: {}, ended: {}, length: {} seconds'.format(self._id, self.started_at, self.ended_at,
+                                                                           self.length)
