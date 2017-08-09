@@ -30,7 +30,9 @@ When you stop "working" and start taking a break issue this command in the termi
 timetrack break
 ``` 
 This will stop tracking your "working" time and start tracking your "break" time.   
-After issues these command you'll see a summary of how much time you've spent on that activity that day.   
+After issues these command you'll see a summary of how much time you've spent on that activity that day.
+#### Learn How You Spend Your Time
+TODO (this feature is in active development right now, not ready yet!)
 ## Goals For This Project
 #### Non-technical Goals
 We want to design `timetracker` so that:

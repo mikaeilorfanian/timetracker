@@ -9,5 +9,6 @@ setup(
     entry_points="""
         [console_scripts]
         timetrack=commandline_client.timetrack:cli
+        timereport=commandline_client.timereport:cli
     """,
 )

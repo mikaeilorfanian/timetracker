@@ -10,6 +10,7 @@ def cli(activity):
     """
     Track how much time you spend on different activities throughout the day!
     ACTIVITY is the type of activity you want to start tracking. Examples: working, reading, studying.
+    To see a report, use the "timereport" command.
     """
 
     a = ActivityManager.start_tracking_new_activity(activity)
