@@ -1,4 +1,5 @@
 from click.testing import CliRunner
+import pytest
 from typing import List
 
 from commandline_client.timereport import cli
@@ -34,6 +35,32 @@ class TestReportForOneActivityToday:
         assert result.exit_code == 0
         assert result.output.count('\n') == 1
         _assert_in_output(result.output, ['test_activity', 'today', '2 minutes'])
+
+
+
+class TestValidatePositiveIntegersFunction:
+
+    def test_error_raised_when_value_is_zero(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ['--days', '0'])
+
+        assert result.exit_code == 2
+        assert 'Error' in result.output
+        assert '--days' in result.output
+
+    def test_error_raised_when_value_is_negative(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ['--days', '-2'])
+
+        assert result.exit_code == 2
+        assert 'Error' in result.output
+        assert '--days' in result.output
+
+    def test_no_error_raised_when_value_is_positive(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ['--days', '2'])
+
+        assert result.exit_code == 0
 
 
 def _assert_in_output(output, tests: List[str]) -> None:

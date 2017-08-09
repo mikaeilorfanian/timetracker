@@ -6,6 +6,12 @@ from use_cases.activity_report import format_seconds_returnbed_by_report, TimeSp
 ACTIVITY_DEFAULT_ARGUMENT = 'all_activities'
 
 
+def validate_positive_int(ctx, param, value):
+    if value == 0 or value < 0:
+        raise click.BadParameter('Value must be positive')
+    return value
+
+
 @click.command()
 @click.option('--days', help='Generate report on how you spent your time during the last x days, '
                                         '1 means today, 2 means today and yesterday', default=1, type=int)
