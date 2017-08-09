@@ -13,10 +13,18 @@ def validate_positive_int(ctx, param, value):
 
 
 @click.command()
-@click.option('--days', help='Generate report on how you spent your time during the last x days, '
-                                        '1 means today, 2 means today and yesterday', default=1, type=int)
-@click.option('--activity', help='Specify the type of category you want to see the report on.',
-              default=ACTIVITY_DEFAULT_ARGUMENT)
+@click.option(
+    '--days',
+    help='Generate report on how you spent your time during the last x days, 1 = today, 2 = today and yesterday',
+    default=1,
+    type=int,
+    callback=validate_positive_int
+)
+@click.option(
+    '--activity',
+    help='Specify the type of category you want to see the report on.',
+    default=ACTIVITY_DEFAULT_ARGUMENT
+)
 def cli(days, activity):
     """
     See a report on how you've spent your time on specific activities or all activity.
