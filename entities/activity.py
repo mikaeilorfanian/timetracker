@@ -31,11 +31,27 @@ class Activity:
         return self.status == self.ENDED
 
     def started_on_this_day(self, date: Arrow) -> bool:
+        if not self.started_at:
+            return False
+
         return all((
             self.started_at.year == date.year,
             self.started_at.month == date.month,
             self.started_at.day == date.day
         ))
+
+    def started_on_or_later_than_this_day(self, date: Arrow) -> bool:
+        if self.started_on_this_day(date):
+            return True
+        elif not self.started_at:
+            return False
+        else:
+            return all((
+                self.started_at.year == date.year,
+                self.started_at.month == date.month,
+                self.started_at.day > date.day
+            ))
+
 
     @property
     def length(self) -> int:
