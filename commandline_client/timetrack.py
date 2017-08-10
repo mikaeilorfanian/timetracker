@@ -18,7 +18,7 @@ def cli(activity):
     click.echo(
         "So far, you've spent {} on {} today!".format(
             format_seconds_returnbed_by_report(
-                TimeSpentInCategoryReport.generate_for_this_category_of_activity(activity)[activity]
+                TimeSpentInCategoryReport.generate_for_this_category_of_activity(activity, 0)[activity]
             ),
             activity
         )
