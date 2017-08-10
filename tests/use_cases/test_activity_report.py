@@ -146,7 +146,7 @@ class TestUtilityFunctionThatPrettyPrintsSecondsFromTheReports:
 
 
     def test_prints_nothing_when_it_receives_zero_seconds(self):
-        assert 'nothing' in format_seconds_returnbed_by_report(0)
+        assert 'exactly zero' in format_seconds_returnbed_by_report(0)
 
     def _assert_these_strings_are_in_the_result(self, seconds: int, strings_list: List[str]) -> None:
         for string in strings_list:

@@ -25,7 +25,7 @@ def format_seconds_returnbed_by_report(seconds):
     elif seconds >= 60 and seconds < 3600:
         return _seconds_to_minutes(seconds)
     elif seconds == 0:
-        return 'nothing'
+        return 'exactly zero'
     elif seconds >= 3600:
         return _seconds_to_hours_and_minutes(seconds)
     else:
