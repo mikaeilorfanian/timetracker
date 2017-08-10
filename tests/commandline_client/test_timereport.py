@@ -1,5 +1,4 @@
 from click.testing import CliRunner
-import pytest
 from typing import List
 
 from commandline_client.timereport import cli
