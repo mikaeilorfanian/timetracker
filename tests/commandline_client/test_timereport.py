@@ -24,7 +24,8 @@ class TestReportForOneActivityToday:
         assert result.output.count('\n') == 1
         _assert_in_output(result.output, ['test_activity', 'today', '2 minutes'])
 
-    def test_one_day_report_is_shown_when_days_argument_is_given_as_one_and_activity_is_specified(self, test_activity):
+    def test_one_day_report_is_shown_when_days_argument_is_given_as_zero_and_activity_is_specified(self,
+                                                                                                   test_activity):
         test_activity.end()
         test_activity.ended_at = test_activity.started_at.shift(seconds=120)
         ActivityGateway.update_activity_in_db(test_activity)
