@@ -32,6 +32,12 @@ class ActivityGateway:
         return [activity for activity in cls.activities() if activity.started_on_this_day(arrow.utcnow())]
 
     @classmethod
+    def activities_in_last_n_days_in_this_category(cls, number_of_days: int, category: str):
+        date = arrow.utcnow().shift(days=-number_of_days)
+        return [act for act in cls.activities() if act.started_on_or_later_than_this_day(date) \
+                and act.category == category]
+
+    @classmethod
     def activities(cls) -> List[Activity]:
         return db.data
 
