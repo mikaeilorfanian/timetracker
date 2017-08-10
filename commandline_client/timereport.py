@@ -35,13 +35,20 @@ def cli(days, activity):
     To see how you spent your time today, type "timereport"
     To see how you spent your time during the last 3 days type "timereport --days 3"
     """
-    if activity != ACTIVITY_DEFAULT_ARGUMENT and days == 1:
+    if activity != ACTIVITY_DEFAULT_ARGUMENT:
+        if not days:
+            days_text = 'today'
+        elif days == 1:
+            days_text = 'since yesterday'
+        else:
+            days_text = 'during the last {} days'.format(days)
         click.echo(
-            "So far, you've spent {} on {} today!".format(
+            "So far, you've spent {} on {} {}!".format(
                 format_seconds_returnbed_by_report(
-                    TimeSpentInCategoryReport.generate_for_this_category_of_activity(activity)[activity]
+                    TimeSpentInCategoryReport.generate_for_this_category_of_activity(activity, days)[activity]
                 ),
-                activity
+                activity,
+                days_text
             )
         )
     else:

@@ -3,6 +3,7 @@ from typing import List
 
 from commandline_client.timereport import cli
 from gateway.activity_gateway import ActivityGateway
+from tests.utils import make_activity
 
 
 def test_when_no_arguments_are_given_a_report_for_all_activities_today_is_displayed():
@@ -36,6 +37,32 @@ class TestReportForOneActivityToday:
         assert result.output.count('\n') == 1
         _assert_in_output(result.output, ['test_activity', 'today', '2 minutes'])
 
+
+
+class TestReportOneActivityMoreThanOneDay:
+
+    def test_two_report_shows_correct_information_about_specified_category_of_activity(self):
+        make_activity(0, 1000, 'working')
+        make_activity(1, 2000, 'working')
+        make_activity(2, 3000, 'working')
+        make_activity(0, 100, 'workin')
+        make_activity(-1, 200, 'workin')
+
+        runner = CliRunner()
+        result = runner.invoke(cli, ['--activity', 'working', '--days', '2'])
+
+        print(ActivityGateway.activities())
+
+        assert result.exit_code == 0
+        assert result.output.count('\n') == 1
+        _assert_in_output(result.output, ['working', 'last 2 days', '1 hour', '40 minutes'])
+
+        runner = CliRunner()
+        result = runner.invoke(cli, ['--activity', 'workin', '--days', '1'])
+
+        assert result.exit_code == 0
+        assert result.output.count('\n') == 1
+        _assert_in_output(result.output, ['since yesterday', '5 minutes'])
 
 
 class TestValidatePositiveIntegersFunction:
