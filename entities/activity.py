@@ -67,5 +67,6 @@ class Activity:
                                                                            self.length)
 
     def __repr__(self):
-        return 'ID: {}, started: {}, ended: {}, length: {} seconds'.format(self._id, self.started_at, self.ended_at,
+        return '<ID: {}, started: {}, ended: {}, length: {} seconds>'.format(self.category, self.started_at,
+                                                                             self.ended_at,
                                                                            self.length)
