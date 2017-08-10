@@ -30,7 +30,7 @@ class TestReportForOneActivityToday:
         ActivityGateway.update_activity_in_db(test_activity)
 
         runner = CliRunner()
-        result = runner.invoke(cli, ['--activity', 'test_activity', '--days', '1'])
+        result = runner.invoke(cli, ['--activity', 'test_activity', '--days', '0'])
 
         assert result.exit_code == 0
         assert result.output.count('\n') == 1
@@ -39,14 +39,6 @@ class TestReportForOneActivityToday:
 
 
 class TestValidatePositiveIntegersFunction:
-
-    def test_error_raised_when_value_is_zero(self):
-        runner = CliRunner()
-        result = runner.invoke(cli, ['--days', '0'])
-
-        assert result.exit_code == 2
-        assert 'Error' in result.output
-        assert '--days' in result.output
 
     def test_error_raised_when_value_is_negative(self):
         runner = CliRunner()
