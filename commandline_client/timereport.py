@@ -7,16 +7,16 @@ ACTIVITY_DEFAULT_ARGUMENT = 'all_activities'
 
 
 def validate_positive_int(ctx, param, value):
-    if value == 0 or value < 0:
-        raise click.BadParameter('Value must be positive')
+    if value < 0:
+        raise click.BadParameter('Value must be zero or positive')
     return value
 
 
 @click.command()
 @click.option(
     '--days',
-    help='Generate report on how you spent your time during the last x days, 1 = today, 2 = today and yesterday',
-    default=1,
+    help='Generate report on how you spent your time during the last x days, 0 = today, 1 = today and yesterday',
+    default=0,
     type=int,
     callback=validate_positive_int
 )
