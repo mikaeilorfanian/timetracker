@@ -23,16 +23,37 @@ Now, you can start tracking your time by writing this command in the terminal:
 ```
 timetrack working
 ```
-This command will start tracking time for "working". You use any other name instead of "working" like "napping", "chatting", "break", etc.   
+This command will start tracking time for "working". You can use any other name instead of "working" like "napping", "chatting", "break", etc.
 Note: `timetracker` doesn't spell check the activity you ask it to track.   
 When you stop "working" and start taking a break issue this command in the terminal   
 ```
 timetrack break
 ``` 
 This will stop tracking your "working" time and start tracking your "break" time.   
-After issues these command you'll see a summary of how much time you've spent on that activity that day.
+After issuing the `timetrack <activity>` command you'll see a summary of how much time you've spent on <activity> that day.
+As you can see, by issuing `timetrack <activity>` you're always tracking your time. So, a typical day of using `timetracker` would look like this:
+- `timetrack breakfast`
+- `timetrack shower`
+- `timetrack commute`
+- `timetrack chatting`
+- `timetrack working`
+- `timetrack break`
+- `timetrack working`
+- `timetrack lunch`
+- ...
+
+There's also an option to stop tracking time:
+```
+timetrack stop
+```
+`stop` is a reserved keyword, so this command will NOT start tracking a "stop" activity. It will just stop tracking the last activity.
+
 #### Learn How You Spend Your Time
-TODO (this feature is in active development right now, not ready yet!)
+After you install `timetracker` you get another command called `timereport`. This command gives you insights on *how* you've spent your time. Here's how you can use it:
+Time you've spent on <activity> today
+`timereport --activity working` --> report on time spent working today
+Time you've spent on <activity> the last X days
+`timereport --activity working --days 3` --> report on time spent working during the last 3 days
 ## Goals For This Project
 #### Non-technical Goals
 We want to design `timetracker` so that:
