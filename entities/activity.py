@@ -46,11 +46,7 @@ class Activity:
         elif not self.started_at:
             return False
         else:
-            return all((
-                self.started_at.year == date.year,
-                self.started_at.month == date.month,
-                self.started_at.day > date.day
-            ))
+            return self.started_at >= date
 
 
     @property
