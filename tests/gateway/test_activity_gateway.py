@@ -149,52 +149,23 @@ class TestSearchForActivitiesWithSpecificCategoryStartedOnOrLaterThanSpecificDay
         assert len(ActivityGateway.activities_in_last_n_days_in_this_category(3, test_activity.category)) == 1
 
     def test_only_one_activity_returned_when_the_rest_the_activities_with_such_category_are_on_previous_days(self):
-        act1 = ActivityManager.start_tracking_new_activity('working')
-        act1.end()
-        act1.started_at = act1.started_at.shift(days=-2)
-        ActivityGateway.update_activity_in_db(act1)
-
-        act2 = ActivityManager.start_tracking_new_activity('working')
-        act2.end()
-        act2.started_at = act2.started_at.shift(days=-4)
-        ActivityGateway.update_activity_in_db(act2)
-
-        act3 = ActivityManager.start_tracking_new_activity('working')
-        act3.end()
-        act3.started_at = act2.started_at.shift(days=-3)
-        ActivityGateway.update_activity_in_db(act3)
+        make_activity(2, 10000, 'working')
+        make_activity(3, 20000, 'working')
+        make_activity(4, 20000, 'working')
 
         assert len(ActivityGateway.activities_in_last_n_days_in_this_category(2, 'working')) == 1
 
     def test_correct_activities_returned_when_there_are_activities_on_and_after_specified_day(self):
-        act1 = ActivityManager.start_tracking_new_activity('working')
-        act1.end()
-        act1.started_at = act1.started_at.shift(days=-2)
-        ActivityGateway.update_activity_in_db(act1)
-
-        act2 = ActivityManager.start_tracking_new_activity('working')
-        act2.end()
-        act2.started_at = act2.started_at.shift(days=-4)
-        ActivityGateway.update_activity_in_db(act2)
-
-        act3 = ActivityManager.start_tracking_new_activity('working')
-        act3.end()
-        act3.started_at = act3.started_at.shift(days=-3)
-        ActivityGateway.update_activity_in_db(act3)
+        make_activity(2, 10000, 'working')
+        make_activity(3, 20000, 'working')
+        make_activity(4, 20000, 'working')
 
         assert len(ActivityGateway.activities_in_last_n_days_in_this_category(4, 'working')) == 3
 
 
     def test_number_of_days_is_zero(self, test_activity):
-        act1 = ActivityManager.start_tracking_new_activity('working')
-        act1.end()
-        act1.started_at = act1.started_at.shift(days=-1)
-        ActivityGateway.update_activity_in_db(act1)
-
-        act2 = ActivityManager.start_tracking_new_activity('working')
-        act2.end()
-        act2.started_at = act2.started_at.shift(days=-3)
-        ActivityGateway.update_activity_in_db(act2)
+        make_activity(1, 10000, 'working')
+        make_activity(3, 20000, 'working')
 
         assert len(ActivityGateway.activities_in_last_n_days_in_this_category(0, test_activity.category)) == 1
 
