@@ -85,3 +85,11 @@ class TestValidatePositiveIntegersFunction:
 def _assert_in_output(output, tests: List[str]) -> None:
     for test_str in tests:
         assert test_str in output
+
+
+def test_error_message_when_there_is_no_activity_specified_time_period():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['--days', '2'])
+
+    assert result.exit_code == 0
+    _assert_in_output(result.output, ['No', 'found', '2'])

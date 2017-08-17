@@ -1,6 +1,10 @@
 import click
 
-from use_cases.activity_report import format_seconds_returnbed_by_report, TimeSpentInCategoryReport
+from use_cases.activity_report import (
+    format_seconds_returnbed_by_report,
+    MultipleActivitiesReportDisplayer,
+    TimeSpentInCategoryReport,
+)
 
 
 ACTIVITY_DEFAULT_ARGUMENT = 'all_activities'
@@ -52,4 +56,27 @@ def cli(days, activity):
             )
         )
     else:
-        click.echo('{} {}'.format(days, activity))
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(days)
+        if not report:
+            _show_no_activities_found_message(days)
+        else:
+            if not days:
+                days_text = 'today'
+            elif days == 1:
+                days_text = 'yesterday and today'
+            else:
+                days_text = 'the last {} days'.format(days)
+
+            reporter = MultipleActivitiesReportDisplayer(report)
+            click.echo("\n\nHere's your report for {}:\n\n{}".format(days_text, reporter.display()))
+
+
+def _show_no_activities_found_message(number_of_days: int) -> None:
+    if number_of_days == 0:
+        days_text = 'today'
+    elif number_of_days == 1:
+        days_text = 'today and yesterday'
+    else:
+        days_text = 'the last {} days'.format(number_of_days)
+
+    click.echo('No activities found for {}!'.format(days_text))
