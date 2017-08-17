@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Dict
 
 from gateway.activity_gateway import ActivityGateway
@@ -17,6 +18,16 @@ class TimeSpentInCategoryReport:
                 total_activity_length += activity.length
 
         return {category: total_activity_length}
+
+    @classmethod
+    def generate_for_all_categories_of_activity(cls, days: int) -> Dict[str, int]:
+        activities_length = defaultdict(int)
+
+        for activity in ActivityGateway.activities_in_the_last_n_days(days):
+            activities_length[activity.category] += activity.length
+
+        return activities_length
+
 
 
 def format_seconds_returnbed_by_report(seconds):

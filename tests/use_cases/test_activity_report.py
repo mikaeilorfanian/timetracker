@@ -61,6 +61,58 @@ class TestTodayReportForSpecificActivity:
         assert report[test_activity.category] == 6000
 
 
+class TestTodayReportForAllActivitites:
+
+    def test_report_is_empty_when_no_activity_was_performed_today(self):
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(0)
+        assert report['working_hard'] == 0
+
+    def test_one_activity_was_performed_once_today_and_already_ended(self, test_activity):
+        test_activity.end()
+        test_activity.ended_at = test_activity.started_at.shift(seconds=100)
+        ActivityGateway.update_activity_in_db(test_activity)
+
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(0)
+        assert report[test_activity.category] == 100
+
+    def test_activity_was_performed_once_today_and_hasnt_ended(self, test_activity):
+        test_activity.started_at = test_activity.started_at.shift(seconds=-1000)
+        ActivityGateway.update_activity_in_db(test_activity)
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(0)
+        assert report[test_activity.category] == 1000
+
+    def test_multiple_activities_that_started_today_and_have_ended(self, test_activity):
+        test_activity.started_at = test_activity.started_at.shift(seconds=-1000)
+        ActivityGateway.update_activity_in_db(test_activity)
+        make_activity(0, 200, 'sleeping')
+
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(0)
+        assert report[test_activity.category] == 1000
+        assert report['sleeping'] == 200
+
+    def test_multpiple_activities_that_started_today_one_has_not_ended_yet(self, test_activity):
+        test_activity.started_at = test_activity.started_at.shift(seconds=-1000)
+        ActivityGateway.update_activity_in_db(test_activity)
+        make_activity(0, 200, 'sleeping')
+        make_activity(0, 200, 'sleeping')
+        make_activity(0, 500, 'exercising')
+
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(0)
+        assert report[test_activity.category] == 1000
+        assert report['sleeping'] == 400
+        assert report['exercising'] == 500
+
+    def test_some_activities_were_performed_today_some_were_not(self):
+        make_activity(0, 3000, 'sleeping')
+        make_activity(1, 1000, 'sleeping')
+        make_activity(1, 500, 'working')
+        make_activity(0, 500, 'working')
+
+        report = TimeSpentInCategoryReport.generate_for_all_categories_of_activity(0)
+        assert report['sleeping'] == 3000
+        assert report['working'] == 500
+
+
 class TestUtilityFunctionThatPrettyPrintsSecondsFromTheReports:
 
     def test_throws_error_when_it_gets_wrong_values_like_negative_numbers_and_non_integers(self):
