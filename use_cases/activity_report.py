@@ -29,7 +29,6 @@ class TimeSpentInCategoryReport:
         return activities_length
 
 
-
 def format_seconds_returnbed_by_report(seconds):
     if seconds > 0 and seconds < 60:
         return _seconds_to_seconds(seconds)
