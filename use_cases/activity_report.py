@@ -60,3 +60,35 @@ def _seconds_to_minutes(seconds):
 
     unit = 'minute' if minutes == 1 else 'minutes'
     return '{} {}'.format(minutes, unit)
+
+
+class MultipleActivitiesReportDisplayer:
+
+    def __init__(self, report: Dict[str, int]):
+        self.report = report
+        self.report_text = ''
+
+    def display(self):
+        if not self.report:
+            return self._report_is_empty_error()
+
+        self._add_header()
+        self._enter()
+
+        for activity in self.report:
+            self._add_activity_summary(activity, self.report[activity])
+            self._enter()
+
+        return self.report_text
+
+    def _add_header(self):
+        self.report_text += 'Activity\tTime Spent'
+
+    def _add_activity_summary(self, activity_category: str, activity_length: int):
+        self.report_text += '{} \t{}'.format(activity_category, format_seconds_returnbed_by_report(activity_length))
+
+    def _enter(self):
+        self.report_text += '\n'
+
+    def _report_is_empty_error(self):
+        return 'There are no activities to report on!'
