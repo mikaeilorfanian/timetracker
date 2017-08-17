@@ -1,6 +1,7 @@
 import pytest
 
 from gateway.activity_gateway import ActivityGateway, RecordNotFoundError
+from tests.utils import make_activity
 from use_cases.activity_manager import ActivityManager
 
 
@@ -196,3 +197,29 @@ class TestSearchForActivitiesWithSpecificCategoryStartedOnOrLaterThanSpecificDay
         ActivityGateway.update_activity_in_db(act2)
 
         assert len(ActivityGateway.activities_in_last_n_days_in_this_category(0, test_activity.category)) == 1
+
+
+class TestSearchForActivitiesStartedOnOrLaterThanSpecificDay:
+
+    def test_no_activities_returned_when_there_are_no_activitie_on_or_after_specificed_day(self):
+        assert len(ActivityGateway.activities_in_the_last_n_days(3)) == 0
+
+    def test_one_acitivity_returned_when_theres_only_one_activity_in_the_given_range(self, test_activity):
+        test_activity.started_at = test_activity.started_at.shift(days=-3)
+        ActivityGateway.update_activity_in_db(test_activity)
+
+        assert len(ActivityGateway.activities_in_the_last_n_days(3)) == 1
+
+    def test_correct_activities_returned_when_there_are_activities_on_and_after_specified_day(self):
+        make_activity(2, 10000, 'working')
+        make_activity(3, 20000, 'sleeping')
+        make_activity(4, 20000, 'eating')
+
+        assert len(ActivityGateway.activities_in_the_last_n_days(4)) == 3
+
+
+    def test_number_of_days_is_zero(self, test_activity):
+        make_activity(1, 10000, 'working')
+        make_activity(3, 20000, 'sleeping')
+
+        assert len(ActivityGateway.activities_in_the_last_n_days(0)) == 1
